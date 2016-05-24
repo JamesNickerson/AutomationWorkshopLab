@@ -1,0 +1,19 @@
+---
+- hosts: all
+  connection: local
+  gather_facts: no
+  tasks:
+    - wait_for: host={{ inventory_hostname }} port=22 timeout=5
+    - junos_install_config:
+        host={{ inventory_hostname }}
+        user=root
+        passwd=Juniper
+        file='files/hostname.set'
+        diffs_file='files/hostname_change.txt'
+        comment='changing hostname using ansible'
+
+
+more files/hostname.set
+  set system host-name foobarbaz
+
+

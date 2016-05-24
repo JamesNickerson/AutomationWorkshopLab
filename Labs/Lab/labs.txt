@@ -1,0 +1,180 @@
+Install/Setup Ubuntu ISO
+--------------------------------------------------
+--Use VMWare--
+Click Plus to Add New Virtual Machine
+Choose to Install from disk image
+Choose the provided ubuntu iso
+Uncheck Easy Install
+Customize Settings
+  Adjust CPU and Memory to your liking
+  Setup Networking
+    1 Bridged Interface
+    1 Private Interface
+Boot Machine
+Select English
+Select Install Ubuntu
+Select English
+Select United States
+Select No to Detect Keyboard Settings
+Select English
+Select Primary adapter as Bridged Device
+Choose Hostname
+Set username and password
+Do not Encrypt
+Set time zone
+Select Guided - Entire Disk
+Select to Write Changes To Disk
+Leave Proxy blank
+Security Updates are not needed, but can be automatically setup...
+Choose to install OpenSSH Server and continue
+Select YES to install GRUB
+Select Continue to Restart into ubuntu
+login
+setup network
+  sudo nano /etc/network/interfaces
+  add the following
+  "auto eth1
+  iface eth1 inet static
+    address 192.168.24.3
+    netmask 255.255.255.0
+  "
+  sudo ifup eth1
+
+sudo apt-get update -y
+sudo apt-get upgrade -y
+sudo reboot
+
+You should now be able to ssh to this machine directly from
+a terminal
+
+
+
+
+
+Install/Setup Firefly
+--------------------------------------------------
+--Use VMware--
+Select Import
+Select the provided Firefly Image
+Save Disk Image
+Accept License
+Select to Customize
+Set Interfaces to Private Network
+Boot Machine
+login    user is root
+cli
+
+edit
+
+set system services netconf ssh
+set system root-authentication plain-text-password
+abc123
+set interfaces ge-0/0/0 unit 0 family inet address 10.10.10.2/24
+delete security
+edit security zones security-zone trust
+set interfaces ge-0/0/0.0 host-inbound-traffic system-services all
+set interfaces ge-0/0/0.0 host-inbound-traffic protocols all
+
+system {
+    root-authentication {
+        encrypted-password "$1$RNpklFzb$iq9S7zU3uEC4OhvOo.0RF."; ## SECRET-DATA
+    }
+    services {
+        ssh {
+            root-login allow;
+        }
+        netconf {
+          ssh;
+        }
+    }
+}
+interfaces {
+    ge-0/0/0 {
+        unit 0 {
+            family inet {
+                address 10.10.10.2/24;
+            }
+        }
+    }
+}
+security {
+    zones {
+        security-zone trust {
+            interfaces {
+                ge-0/0/0.0 {
+                    host-inbound-traffic {
+                        system-services {
+                            all;
+                        }
+                        protocols {
+                            all;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+ctl-d
+commit
+you should now be able to ping the vsrx
+and ssh as provisioner... password is abc123
+
+
+Install pyez
+--------------------------------------------------
+$sudo apt-get install python python-pip libxml2-dev \
+  libxslt1-dev python-dev zlib1g-dev
+$sudo pip install junos-eznc
+
+
+
+
+Setup ruby-ez
+--------------------------------------------------
+  $gpg --keyserver hkp://keys.gnupg.net \
+    --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
+
+  $curl -sSL https://get.rvm.io | bash -s stable
+  $source /home/ubuntu/.rvm/scripts/rvm
+  $rvm install ruby-2.2.1
+  $rvm use --default ruby-2.2.1
+  $gem install bundler
+  $gem install junos-ez-stdlib
+
+
+
+
+
+Install Ansible and junos-ansible-stdlib
+--------------------------------------------------
+$ sudo apt-get install software-properties-common
+$ sudo apt-add-repository ppa:ansible/ansible
+$ sudo apt-get update
+$ sudo apt-get install ansible
+$ sudo apt-get install ansible git
+
+$ cd ~
+
+$ git clone https://github.com/Juniper/ansible-junos-stdlib.git
+
+
+
+
+Hello World Netconf
+--------------------------------------------------
+See Folder
+
+
+Hello World Py Ez
+--------------------------------------------------
+See Folder
+
+
+Hello World ruby-ez
+--------------------------------------------------
+See Folder
+
+Hello World Ansible
+--------------------------------------------------
+See Folder

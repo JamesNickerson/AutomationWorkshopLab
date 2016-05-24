@@ -1,0 +1,4 @@
+
+[edit system]
+-  host-name vsrx;
++  host-name foobarbaz;

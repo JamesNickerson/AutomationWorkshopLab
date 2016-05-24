@@ -1,0 +1,14 @@
+---
+- hosts: all
+  connection: local
+  gather_facts: no
+  tasks:
+    - wait_for: host={{ inventory_hostname }} port=22 timeout=5
+    - junos_install_os:
+        host={{ inventory_hostname }}
+        user=root
+        passwd=Juniper
+        version='12.1X47-D15.4'
+        package='/dev/null' #path to firmware file
+        # gets skipped because version is already correct
+

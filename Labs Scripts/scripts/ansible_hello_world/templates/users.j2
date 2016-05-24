@@ -1,0 +1,10 @@
+system {
+    login {
+{% for user in users %}
+        user {{ user }} {
+            class super-user;
+        }
+{% endfor %}
+    }
+}
+

@@ -1,0 +1,19 @@
+
+
+# Installing OS dependencies
+sudo apt-get update -y
+
+sudo apt-get install python python-dev python-pip libxml2-dev \
+libxslt1-dev zlib1g-dev libffi-dev libssl-dev
+
+# Install py-ez
+sudo pip install --upgrade junos-eznc
+sudo pip install -U distribute
+
+
+# NOTE: lxml may fail to install if there is low memory....
+# so.... either increase memory to the vm... or enable a swapfile
+#sudo dd if=/dev/zero of=/swapfile bs=1024 count=524288
+#sudo chmod 600 /swapfile
+#sudo mkswap /swapfile
+#sudo swapon /swapfile

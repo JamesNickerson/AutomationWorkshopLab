@@ -1,0 +1,12 @@
+# Installing the Latest Ansible on Ubuntu
+sudo apt-get install software-properties-common
+sudo apt-add-repository ppa:ansible/ansible
+sudo apt-get update -y
+sudo apt-get install ansible
+
+
+# Getting a copy of the Ansible Junos Stdlib
+sudo apt-get install git
+cd ~/Desktop
+git clone https://github.com/Juniper/ansible-junos-stdlib.git
+

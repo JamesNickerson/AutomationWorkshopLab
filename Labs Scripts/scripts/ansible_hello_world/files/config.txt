@@ -1,0 +1,89 @@
+
+## Last changed: 2015-11-02 17:31:56 UTC
+version 12.1X47-D15.4;
+system {
+    host-name foobarbaz;
+    root-authentication {
+        encrypted-password "$1$nq.N1UsY$JxA/ESAj3KuXseXE597gg0";
+        ssh-rsa "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDYz9flBWae0rzWnenvVeMU2MgDh6d9VmLrE2Xs3XM3DOTKKLw/Z4b3YNFrp7F5I5WKLXrIXfNF7Sxi+KvGvlOEErmB3lrfr2zgtRQWkNZSW9jpxkHV+5EUvys54dCyMvV9czl+Gye9gYoL5elBKucKyDB8+rpnxmH/+XivnuBMYg1TENmeiAXnesM3QKf8Ys2srw+7ovstVsAiQfF4GjMm6fw6PDltUmxgOwfv8/s0LNtSkYRWHvx5xdcv+MEr7Mk2mYjh+Cr+1Hv30lvWQ87unBGE2vH9384icNlaqeXJSgh3Hst5zzJks1uC++ucpAGOLJAMDfm5IIVFocj/y4JZ vagrant";
+    }
+    login {
+        user bar {
+            uid 2001;
+            class super-user;
+        }
+        user baz {
+            uid 2002;
+            class super-user;
+        }
+        user foo {
+            uid 2003;
+            class super-user;
+        }
+        user vagrant {
+            uid 2000;
+            class super-user;
+            authentication {
+                ssh-rsa "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA6NF8iallvQVp22WDkTkyrtvp9eWW6A8YVr+kz4TjGYe7gHzIw+niNltGEFHzD8+v1I2YJ6oXevct1YeS0o9HZyN1Q9qgCgzUFtdOKLv6IedplqoPkcmF0aYet2PkEDo3MlTBckFXPITAMzF8dJSIFo9D8HfdOV0IAdx4O7PtixWKn5y2hMNG0zQPyUecp4pzC6kivAIhyfHilFR61RGL+GPXQ2MWZWFYbAGjyiYJnAmCP3NOTd0jMZEnDkbUvxhMmBYSdETk1rRgm+R4LOzFUGaHqHDLKLX+FIPKcF96hrucXzcWyLbIbEgE98OHlnVYCzRdK8jlqm8tehUc9c9WhQ== vagrant insecure public key";
+            }
+        }
+    }
+    services {
+        ssh {
+            root-login allow;
+        }
+        netconf {
+            ssh;
+        }
+        web-management {
+            http {
+                interface ge-0/0/0.0;
+            }
+        }
+    }
+    syslog {
+        user * {
+            any emergency;
+        }
+        file messages {
+            any any;
+            authorization info;
+        }
+        file interactive-commands {
+            interactive-commands any;
+        }
+    }
+    license {
+        autoupdate {
+            url https://ae1.juniper.net/junos/key_retrieval;
+        }
+    }
+}
+interfaces {
+    ge-0/0/0 {
+        unit 0 {
+            family inet {
+                dhcp;
+            }
+        }
+    }
+    ge-0/0/1 {
+        unit 0 {
+            family inet {
+                address 10.10.10.2/24;
+            }
+        }
+    }
+}
+security {
+    forwarding-options {
+        family {
+            inet6 {
+                mode packet-based;
+            }
+            mpls {
+                mode packet-based;
+            }
+        }
+    }
+}

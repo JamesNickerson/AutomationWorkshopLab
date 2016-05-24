@@ -1,0 +1,32 @@
+#Install pyez
+#--------------------------------------------------
+sudo apt-get install python python-pip libxml2-dev \
+  libxslt1-dev python-dev zlib1g-dev
+
+sudo pip install junos-eznc
+
+
+#Install Ansible and junos-ansible-stdlib
+#--------------------------------------------------
+sudo apt-get install software-properties-common
+sudo apt-add-repository ppa:ansible/ansible
+sudo apt-get update
+sudo apt-get install ansible
+
+cd ~
+ansible-galaxy install Juniper.junos
+sudo apt-get install git
+git clone https://github.com/Juniper/ansible-junos-stdlib.git
+
+
+#Setup ruby-ez (Optional)
+#--------------------------------------------------
+gpg --keyserver hkp://keys.gnupg.net \
+  --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
+
+curl -sSL https://get.rvm.io | bash -s stable
+source /home/ubuntu/.rvm/scripts/rvm
+rvm install ruby-2.2.1
+rvm use --default ruby-2.2.1
+gem install bundler
+gem install junos-ez-stdlib

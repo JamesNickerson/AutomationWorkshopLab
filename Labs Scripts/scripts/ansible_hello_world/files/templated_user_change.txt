@@ -1,0 +1,11 @@
+
+[edit system login]
++    user bar {
++        class super-user;
++    }
++    user baz {
++        class super-user;
++    }
++    user foo {
++        class super-user;
++    }

@@ -1,0 +1,21 @@
+---
+- hosts: all
+  connection: local
+  gather_facts: no
+  tasks:
+    - wait_for: host={{ inventory_hostname }} port=22 timeout=5
+    - junos_get_facts:
+        host={{ inventory_hostname }}
+        user=root
+        passwd=Juniper
+      register: junos
+    - debug: var=junos.facts
+
+# cd project
+# ansible-playbook -i hosts gather_facts.yml
+
+
+
+      sudo apt-add-repository ppa:ansible/ansible
+      sudo apt-get update -y
+      sudo apt-get install -y ansible

@@ -1,0 +1,35 @@
+---
+- hosts: all
+  connection: local
+  gather_facts: no
+  vars_files:
+    - vars/users.yml
+  tasks:
+    - wait_for: host={{ inventory_hostname }} port=22 timeout=5
+    - template:
+        src='templates/users.j2'
+        dest='files/users.conf'
+    - junos_install_config:
+        host={{ inventory_hostname }}
+        user=root
+        passwd=Juniper
+        file='files/users.conf'
+        diffs_file='files/templated_user_change.txt'
+        comment='changing users using ansible'
+
+## vars/users.yml
+users:
+  - foo
+  - bar
+  - baz
+
+## templates/users.j2
+system {
+    login {
+{% for user in users %}
+        user {{ user }} {
+            class super-user;
+        }
+{% endfor %}
+    }
+}
